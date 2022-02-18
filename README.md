@@ -12,10 +12,12 @@ Dieser Bot erlaubt die Synchronisation zwischen der Webseite von ifheroes.de und
 > 2. Installation der node modules via `npm install`.
 > 3. "Veröffentlichung der Commands":
 >> 3.1 Dieser Schritt ist nötig, da es sich hierbei um Slash Commands handelt, die zuerst registriert und an den Server gebunden werden müsse.
+>> 
 >> 3.2 Möglich mit `npm run deploy` oder `node src/deploy-commands.js`.
 
 > 4. Starten des Bots
 >> 4.1 Gestartet wird der Bot entweder mit `node .`, `node src/index.js`, `npm start` oder `npm run start`.
+>> 
 >> 4.2 Sofern auf Linux, kann die `start.sh` Datei im Stammverzeichnis genutzt werden, welche den Bot in dauerschleife laufen lässt. Sofern möglich, empfiehlt es sich hierfür screen zu nutzen. Beispiel: `screen -d -m -S discord-web-bot bash start.sh`
 
 #### JSON-Informationen
