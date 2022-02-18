@@ -1,0 +1,23 @@
+{
+  "name": "discord-web-bot-ifheroes",
+  "version": "1.0.0",
+  "description": "Discord Bot that allows communication between a Website and a Server via Slash Commands",
+  "main": "src/index.js",
+  "scripts": {
+    "deploy": "node ./src/deploy-commands.js",
+    "start": "node ./src/index.js"
+  },
+  "author": "EckigerLuca",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "eslint": "latest"
+  },
+  "dependencies": {
+    "@discordjs/builders": "latest",
+    "@discordjs/rest": "latest",
+    "discord-api-types": "latest",
+    "discord.js": "latest",
+    "events": "latest",
+    "moment": "^2.29.1"
+  }
+}
