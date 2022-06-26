@@ -1,3 +1,103 @@
+EckigerLuca
+#0001
+KleeBonkInvite my bot or I'll eat your food
+
+SillySoon — 05/19/2022
+so it should work aight?
+EckigerLuca — 05/19/2022
+ja du musst nichts mehr machen
+SillySoon — 05/19/2022
+❤️
+EckigerLuca — 05/19/2022
+oeffne mal eine .js datei
+SillySoon — 05/19/2022
+i did
+EckigerLuca — 05/19/2022
+und mach eine neue UNGENUTZTE variable
+der meckert dann direkt
+SillySoon — 05/19/2022
+Also er sollte ; machen right? xD
+or what exactly u meme?
+Image
+EckigerLuca — 05/19/2022
+das musst du von alleine machen er weist dich drauf hin
+whatdaheck
+SillySoon — 05/19/2022
+i really want to understand xD
+EckigerLuca — 05/19/2022
+warum triggert eslint nicht
+uh
+SillySoon — 05/19/2022
+Also es sollte installed sein
+EckigerLuca — 05/19/2022
+darf ich mal korz anydesk bei dir basteln?
+SillySoon — 05/19/2022
+oof i need to install it
+EckigerLuca — 05/19/2022
+oof
+windows remote hilfe?
+SillySoon — 05/19/2022
+421985907
+EckigerLuca — 05/19/2022
+hast du windows remotehilfe geöffnet oder ist das anydesk?
+SillySoon — 05/19/2022
+any
+EckigerLuca — 05/19/2022
+is nen windows bug wait a min
+{
+	"extends": "eslint:recommended",
+	"env": {
+		"node": true,
+		"es6": true
+	},
+Expand
+eslintrc.json
+2 KB
+replace config pls
+now eslint works :P
+SillySoon — 05/19/2022
+❤️
+EckigerLuca — 05/19/2022
+und wenn du jetzt strg+. drückst während du bei dem problem bist zeigt er dir quick fixes an
+SillySoon — 05/19/2022
+uhh noice
+EckigerLuca — 05/19/2022
+:yes:
+okai viel spaß
+ich code weiter doarling
+SillySoon — 05/19/2022
+--------
+Okai c:
+EckigerLuca — 05/19/2022
+:3
+SillySoon — 05/19/2022
+The cat wrote this qwq
+EckigerLuca — 05/19/2022
+meow
+SillySoon — 05/19/2022
+Bist du noch bei mir drinne? xD
+EckigerLuca — 05/19/2022
+nop
+SillySoon — 05/19/2022
+ogai
+SillySoon — 05/19/2022
+Ich hab nen neues Profilbild gemacht.
+Image
+Oder ist das jetzige geiler?
+do you know if npm ignores the node_moduals?
+EckigerLuca — 05/19/2022
+ja
+EckigerLuca — 05/19/2022
+sick
+npmignore ;)
+SillySoon — 05/19/2022
+true 😉
+This is better:
+Image
+😉
+EckigerLuca — 05/19/2022
+i love it so much
+﻿
 {
 	"extends": "eslint:recommended",
 	"env": {
@@ -8,7 +108,6 @@
 		"ecmaVersion": 2021
 	},
 	"rules": {
-		"brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
 		"comma-dangle": ["error", "always-multiline"],
 		"comma-spacing": "error",
 		"comma-style": "error",
@@ -29,7 +128,7 @@
 		"no-trailing-spaces": ["error"],
 		"no-var": "error",
 		"object-curly-spacing": ["error", "always"],
-		"prefer-const": "error",
+		"prefer-const": "warn",
 		"semi": ["error", "always"],
 		"space-before-function-paren": ["error", {
 			"anonymous": "never",
@@ -40,6 +139,7 @@
 		"space-infix-ops": "error",
 		"space-unary-ops": "error",
 		"spaced-comment": "error",
-		"yoda": "error"
+		"yoda": "error",
+		"no-unused-vars": "warn"
 	}
 }
