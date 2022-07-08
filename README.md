@@ -4,7 +4,7 @@ Dieser Bot erlaubt die Synchronisation zwischen der Webseite von ifheroes.de und
 ## Was kann dieser Bot?
 
 > 1. Der Bot läuft mit Slash Commands, die nur von Leuten mit einer bestimmten Rolle ausgeführt werden können.
-> 2. Beim Ausführen werden Titel, Text und Bild abgefragt und in eine JSON Datei geschrieben. Weiteres: siehe Unten.
+> 2. Beim Ausführen werden Titel, Text und Bild abgefragt und in eine JSON Datei geschrieben. Darauf wird ein Embed mit den angegeben Daten in den Channel gesendet, in dem man den Command ausgeführt hat. Weiteres: siehe Unten.
 
 ### Setup
 
