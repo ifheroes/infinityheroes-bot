@@ -5,8 +5,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("help")
-        .setDescription("Zeigt dir, wie man neue Posts verfasst")
-        .setDefaultPermission(false),
+        .setDescription("Zeigt dir, wie man neue Posts verfasst"),
 
         async execute(interaction) {
             const embed = new MessageEmbed()
