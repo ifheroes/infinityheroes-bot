@@ -1,6 +1,6 @@
 {
   "name": "discord-web-bot-ifheroes",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Discord Bot that allows communication between a Website and a Server via Slash Commands",
   "main": "src/index.js",
   "scripts": {
