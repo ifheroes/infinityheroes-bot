@@ -22,11 +22,10 @@ module.exports = {
 			option
 				.setName("bild")
 				.setDescription("Direkte URL vom Bild")
-				.setRequired(true))
-		.setDefaultPermission(false),
+				.setRequired(true)),
 
 		async execute(interaction) {
-			await interaction.deferReply({ ephemeral: true });
+			await interaction.deferReply();
 			const author = interaction.user;
 			const title = interaction.options.getString("titel");
 			const text = interaction.options.getString("text");
