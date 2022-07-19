@@ -10,10 +10,11 @@ Dieser Bot erlaubt die Synchronisation zwischen der Webseite von ifheroes.de und
 
 > 1. Die Datei `config.json.pub` muss in `config.json` umbenannt und ausgefüllt werden. Die Datei befindet sich in `src/data`.
 > 2. Installation der node modules via `npm install`.
-> 3. "Veröffentlichung der Commands":
->> 3.1 Dieser Schritt ist nötig, da es sich hierbei um Slash Commands handelt, die zuerst registriert und an den Server gebunden werden müssen.
+> 3. Den Ornder `exports` im Stammverzeichnis erstellen.
+> 4. "Veröffentlichung der Commands":
+>> 4.1 Dieser Schritt ist nötig, da es sich hierbei um Slash Commands handelt, die zuerst registriert und an den Server gebunden werden müssen.
 >> 
->> 3.2 Möglich mit `npm run deploy` oder `node src/deploy-commands.js`.
+>> 4.2 Möglich mit `npm run deploy` oder `node src/deploy-commands.js`.
 
 > 4. Starten des Bots
 >> 4.1 Gestartet wird der Bot entweder mit `node .`, `node src/index.js`, `npm start` oder `npm run start`.

@@ -13,10 +13,9 @@
     "eslint": "latest"
   },
   "dependencies": {
-    "@discordjs/builders": "latest",
     "@discordjs/rest": "latest",
     "discord-api-types": "latest",
-    "discord.js": "^13.8.1",
+    "discord.js": "^14.0.0",
     "events": "latest",
     "moment": "^2.29.1"
   }
