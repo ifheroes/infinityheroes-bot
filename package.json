@@ -16,7 +16,7 @@
     "@discordjs/builders": "latest",
     "@discordjs/rest": "latest",
     "discord-api-types": "latest",
-    "discord.js": "latest",
+    "discord.js": "^13.8.1",
     "events": "latest",
     "moment": "^2.29.1"
   }
