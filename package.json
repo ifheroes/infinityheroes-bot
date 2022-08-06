@@ -4,6 +4,7 @@
   "description": "Discord Bot that allows communication between a Website and a Server via Slash Commands",
   "main": "src/index.js",
   "scripts": {
+    "test": "echo \"Wer braucht bitte ein Testscript fuer einen Discord Bot???\" && exit 1",
     "deploy": "node ./src/deploy-commands.js",
     "start": "node ./src/index.js"
   },
