@@ -18,6 +18,7 @@ header('Content-Type: application/json');
 $data = [];
 $counter = 0;
 
+#request for each json file
 foreach ($jsonFiles as $file) {
     $counter++;
     $data[] = [
@@ -28,5 +29,6 @@ foreach ($jsonFiles as $file) {
     ];
 }
 
+#print response to browser
 echo json_encode($data);
 ?>

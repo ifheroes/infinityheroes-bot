@@ -28,7 +28,7 @@ COPY --from=clone_stage /bot ./
 COPY config.json /bot/src/data
 
 # Copy the index.php for the API to the webserver directory
-COPY index.php /var/www/html/
+RUN mv /bot/index.php /var/www/html/
 
 # Remove the default index.html file if it exists
 RUN rm -f /var/www/html/index.html
