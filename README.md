@@ -28,8 +28,10 @@ Der Dateiname besteht aus `Monat-Tag-Jahr_Stunde-Minute-Sekunde.json` (`MM-DD-YY
 
 ## Informationen zur Verwendung mit Docker
 
-1.Zunächst muss das Repo von github heruntergeladen werden
+1. Zunächst muss das Repo von github heruntergeladen werden
+
 2. Im gleichen file die dem Dockerfile muss nun die config.json abgelegt werden.
+    
 3. Aktuell muss noch ein Image erstellt werden mit dem Befehl:
 ````
 docker build --pull --rm -f "Dockerfile" -t infinityheroesbot:latest "."
