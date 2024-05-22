@@ -2,19 +2,21 @@
 FROM bitnami/git as clone_stage
 RUN git clone https://github.com/ifheroes/infinityheroes-bot.git /bot
 
-# Second stage: Build and run the Node application
+# Second stage: Build and run the Node application with Apache and PHP
 FROM node:16.20.2
 
-RUN apt-get update && apt-get install -y apache2 && \
-    # Apache Konfiguration anpassen
+# Install Apache, PHP, and other dependencies
+RUN apt-get update && apt-get install -y \
+    apache2 \
+    php \
+    libapache2-mod-php && \
     a2enmod rewrite && \
-    sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf && \
-    service apache2 restart && \
-    # Aufräumen
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-
-
+# Configure Apache
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf && \
+    sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf && \
+    sed -i 's/<VirtualHost \*:80>/<VirtualHost \*:8080>/' /etc/apache2/sites-available/000-default.conf
 
 # Create the working directory
 WORKDIR /bot
@@ -22,18 +24,27 @@ WORKDIR /bot
 # Copy the cloned repository from the first stage
 COPY --from=clone_stage /bot ./
 
+# Copy the configuration file
 COPY config.json /bot/src/data
 
-# Install dependencies
+# Copy the index.php for the API to the webserver directory
+COPY index.php /var/www/html/
+
+# Remove the default index.html file if it exists
+RUN rm -f /var/www/html/index.html
+
+# Install Node.js dependencies
 RUN npm install
 
+# Create the exports directory and link it to the webserver
 RUN mkdir /bot/exports && \
     ln -s /bot/exports /var/www/html/exports
 
 # Deploy the application (if this step is needed)
 RUN npm run deploy
 
-# Apache im Hintergrund starten und Node.js-Anwendung als primären Prozess ausführen
+# Expose port 8080 for Apache
+EXPOSE 8080
+
+# Start Apache in the background and run the Node.js application as the primary process
 CMD service apache2 start && npm run start
-
-
