@@ -22,7 +22,7 @@ foreach ($jsonFiles as $file) {
     $counter++;
     $data[] = [
         'number'=>''.$counter.'', # print out counted number
-        'path'=>'https://'.$_SERVER['HTTP_HOST'].'/exports/' . $file, # path to file with current url
+        'path'=>'https://api.ifheroes.de/v1/news/exports/' . $file, # path to file with current url
         'date'=>date("d-m-Y", filectime($directory . '/' . $file)), # get creation date from json file 
         'file_id'=>date("dmYhis", filectime($directory . '/' . $file)), # create an file id out of the date and time
     ];
