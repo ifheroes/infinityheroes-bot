@@ -1,0 +1,15 @@
+services:
+  ifheroesbot:
+    build:
+      args:
+      - token=
+      - clientId=
+      - guildId=
+      - roleId=
+      - color=
+      - api_url=https://api.ifheroes.de/v1/news
+    ports:
+    - "8080:8080"
+
+    volumes:
+      - ./exports:/bot/exports
