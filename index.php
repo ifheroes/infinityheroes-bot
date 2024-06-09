@@ -5,40 +5,49 @@ header('Content-Type: application/json');
 
 #scan the /exports folder
 $directory = "exports/";
-$files = scandir($directory, SCANDIR_SORT_DESCENDING);
+$files = scandir($directory);
 
-# exclude subdirs from the scan
+# exclude subdirs from the scan and filter JSON files
 $jsonFiles = array_filter($files, function($file) use ($directory) {
     return is_file($directory . '/' . $file) && pathinfo($file, PATHINFO_EXTENSION) === 'json';
 });
 
-# print out the json files found in export folder
-header('Content-Type: application/json');
+# Function to extract the timestamp from the filename
+function extractTimestamp($filename) {
+    preg_match('/(\d{2}-\d{2}-\d{4}_\d{2}-\d{2}-\d{2})/', $filename, $matches);
+    if (!empty($matches)) {
+        return DateTime::createFromFormat('m-d-Y_H-i-s', $matches[1])->getTimestamp();
+    }
+    return 0;
+}
 
+# Sort the JSON files by the extracted timestamp, descending
+usort($jsonFiles, function($a, $b) {
+    return extractTimestamp($b) - extractTimestamp($a);
+});
+
+# Prepare the response data
 $data = [];
 $counter = 0;
 
 foreach ($jsonFiles as $file) {
+    $fileData = file_get_contents($directory . '/' . $file);
+    $obj = json_decode($fileData);
 
-    # structure as api
-
-        # decode the json file
-        $fileData = file_get_contents($directory . $file);
-        $obj = json_decode($fileData);
-
-        $title = $obj->title;
-        $text = $obj->text;
-        $image = $obj->image;
+    $title = $obj->title;
+    $text = $obj->text;
+    $image = $obj->image;
+    $timestamp = extractTimestamp($file);
 
     $counter++;
     $data[] = [
-        'number'=>''.$counter.'', # print out counted number
-        'path'=> 'https://api.ifheroes.de/v1/news/exports/' . $file, # path to file with current url
-        'date'=> date("d-m-Y", filectime($directory . '/' . $file)), # get creation date from json file 
-        'file_id'=> date("dmYhis", filectime($directory . '/' . $file)), # create an file id out of the date and time
-        'title'=>''.$title.'',
-        'text'=>''.$text.'',
-        'image'=>''.$image.'',
+        'number' => '' . $counter . '',
+        'path' => 'https://api.ifheroes.de/v1/news/exports/' . $file,
+        'date' => date("d-m-Y", $timestamp),
+        'file_id' => date("dmYHis", $timestamp),
+        'title' => $title,
+        'text' => $text,
+        'image' => $image,
     ];
 }
 
