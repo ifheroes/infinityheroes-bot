@@ -1,5 +1,6 @@
 services:
   ifheroesbot:
+    restart: always
     build:
       args:
       - token=
