@@ -5,9 +5,11 @@ module.exports = {
 	name: 'interactionCreate',
 	once: false,
 	async execute(interaction) {
+        let client = interaction.client;
+        
 		if (interaction.type !== InteractionType.ApplicationCommand) return;
 
-        const command = interaction.client.commands.get(interaction.commandName);
+        const command = client.commands.get(interaction.commandName);
 
         if (!command) return;
 
@@ -15,7 +17,7 @@ module.exports = {
 
         if (interaction.member.roles.resolve(roleId)) {
             try {
-                await command.execute(interaction);
+                await command.execute(interaction, client);
             }
             catch (error) {
                 console.error(error);

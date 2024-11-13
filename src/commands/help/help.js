@@ -7,7 +7,7 @@ module.exports = {
         .setName("help")
         .setDescription("Zeigt dir, wie man neue Posts verfasst"),
 
-        async execute(interaction) {
+        async execute(interaction, client) {
             const embed = new EmbedBuilder()
                 .setTitle("Informationen bzgl. Verfassen von Posts")
                 .setColor(color)

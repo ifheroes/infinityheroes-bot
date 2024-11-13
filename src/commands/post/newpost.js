@@ -1,56 +1,81 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { color } = require('../../data/config.json');
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle } = require('discord.js');
 const fs = require('fs');
 const moment = require('moment');
 
+const { color } = require('../../data/config.json');
+
 module.exports = {
-    data: new SlashCommandBuilder()
+	data: new SlashCommandBuilder()
 		.setName("newpost")
-		.setDescription("Erstelle einen neuen Post auf der Website")
-		.addStringOption(option =>
-			option
-				.setName("titel")
-				.setDescription("Der Titel vom Post")
-				.setRequired(true))
-		.addStringOption(option =>
-			option
-				.setName("text")
-				.setDescription("Fließtext der im Post stehen soll. Neue Zeilen werden mit '{nl}' angefangen")
-				.setRequired(true))
-		.addStringOption(option =>
-			option
-				.setName("bild")
-				.setDescription("Direkte URL vom Bild")
-				.setRequired(true)),
+		.setDescription("Erstelle einen neuen Post auf der Website"),
+	async execute(interaction, client) {
+		let newPostModal = new ModalBuilder()
+			.setTitle("Erstelle einen neuen Post!")
+			.setCustomId("newPostModalSubmit");
 
-		async execute(interaction) {
-			await interaction.deferReply();
-			const author = interaction.user;
-			const title = interaction.options.getString("titel");
-			const text = interaction.options.getString("text");
-			const image = interaction.options.getString("bild");
-			const newText = text.replace(/({nl})/gm, "\n");
+		let embedTitle = new TextInputBuilder()
+			.setCustomId("embedTitle")
+			.setLabel("Titel")
+			.setPlaceholder("Neues Upda..")
+			.setStyle(TextInputStyle.Short)
+			.setRequired(true);
 
-			let json = {
-				"title": title,
-				"text": newText,
-				"image": image,
+		let embedDescription = new TextInputBuilder()
+			.setCustomId("embedDescription")
+			.setLabel("Beschreibung")
+			.setPlaceholder("Die neuen Fea..")
+			.setStyle(TextInputStyle.Paragraph)
+			.setRequired(true);
+
+		let embedImage = new TextInputBuilder()
+			.setCustomId("embedImage")
+			.setLabel("Thumbnail")
+			.setPlaceholder("https://i.imgur.com/...")
+			.setStyle(TextInputStyle.Short)
+			.setRequired(true);
+
+		let embedTitleRow = new ActionRowBuilder()
+			.addComponents(embedTitle);
+		let embedDescriptionRow = new ActionRowBuilder()
+			.addComponents(embedDescription);
+		let embedImageRow = new ActionRowBuilder()
+			.addComponents(embedImage);
+
+		newPostModal.addComponents(embedTitleRow, embedDescriptionRow, embedImageRow);
+
+		await interaction.showModal(newPostModal);
+
+		await client.once("interactionCreate", async (interaction) => {
+			if (!interaction.isModalSubmit() &&
+				!interaction.customId === "newPostModalSubmit") return;
+
+			let embedTitle = interaction.fields.getTextInputValue("embedTitle");
+			let embedDescription = interaction.fields.getTextInputValue("embedDescription");
+			let embedImage = interaction.fields.getTextInputValue("embedImage");
+
+			let createdMessage = new EmbedBuilder()
+				.setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+				.setTitle(embedTitle)
+				.setDescription(embedDescription)
+				.setColor(color)
+				.setImage(embedImage);
+
+			let messageJson = {
+				"title": embedTitle,
+				"text": embedDescription,
+				"image": embedImage,
 			};
-			json = JSON.stringify(json, null, 4);
 
-			const date = moment().format("MM-DD-YYYY_HH-mm-ss");
+			messageJson = JSON.stringify(messageJson, null, 4);
 
-			fs.writeFile(`./exports/${date}.json`, json, 'utf-8', function writeFileCallback(err) {
-				if (err) { console.log(err); }
+			let date = moment().format("MM-DD-YYYY_HH-mm-ss");
+
+			fs.writeFile(`./exports/${date}.json`, messageJson, 'utf-8', function writeFileCallback(err) {
+				if (err) console.log(err);
 			});
 
-			const embed = new EmbedBuilder()
-				.setTitle(title)
-				.setColor(color)
-				.setDescription(newText)
-				.setImage(image)
-				.setAuthor({ name: author.username, iconURL: author.displayAvatarURL({ dynamic: true }) });
-			await interaction.editReply({ embeds: [embed] });
-		},
+			interaction.reply({ embeds: [createdMessage] })
+		});
+	},
 };

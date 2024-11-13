@@ -1,23 +1,19 @@
 {
   "name": "discord-web-bot-ifheroes",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Discord Bot that allows communication between a Website and a Server via Slash Commands",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Wer braucht bitte ein Testscript fuer einen Discord Bot???\" && exit 0",
+    "test": "echo \"Wer braucht bitte ein Testscript fuer einen Discord Bot??? - \" && exit 0",
     "deploy": "node ./src/deploy-commands.js",
     "start": "node ./src/index.js"
   },
-  "author": "EckigerLuca",
+  "author": "EckigerLuca, FrauJulian",
   "license": "GPL-3.0",
-  "devDependencies": {
-    "eslint": "latest"
-  },
   "dependencies": {
-    "@discordjs/rest": "latest",
-    "discord-api-types": "latest",
-    "discord.js": "^14.0.0",
-    "events": "latest",
-    "moment": "^2.29.1"
+    "@discordjs/rest": "^2.4.0",
+    "discord-api-types": "^0.37.104",
+    "discord.js": "^14.16.3",
+    "moment": "^2.30.1"
   }
 }
