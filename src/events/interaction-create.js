@@ -1,11 +1,10 @@
-const { InteractionType } = require('discord-api-types/v10');
-const { roleId } = require('../data/config.json');
+const logger = require('silly-logger');
 
 module.exports = {
 	name: 'interactionCreate',
 	once: false,
 	async execute(interaction) {
-		if (interaction.type !== InteractionType.ApplicationCommand) return;
+		if (!interaction.isChatInputCommand()) return;
 
         const command = interaction.client.commands.get(interaction.commandName);
 
@@ -13,21 +12,15 @@ module.exports = {
 
         if (!interaction.guild) return await interaction.reply({ content: "No.", ephemeral: true });
 
-        if (interaction.member.roles.resolve(roleId)) {
-            try {
-                await command.execute(interaction);
-            }
-            catch (error) {
-                console.error(error);
-                try {
-                    await interaction.reply({ content: 'Es gab einen Fehler beim Ausführen des Commands!', ephemeral: true });
-                }
-                catch {
-                    await interaction.editReply({ content: 'Es gab einen Fehler beim Ausführen des Commands!', ephemeral: true });
-                }
-            }
-        } else {
-            await interaction.reply({ content: 'Du darfst diesen Command nicht ausführen!', ephemeral: true });
-        }
+		try {
+			await command.execute(interaction);
+		} catch (error) {
+			logger.error(error);
+			try {
+				await interaction.reply({ content: 'Es gab einen Fehler beim Ausführen des Commands!', ephemeral: true });
+			} catch {
+				await interaction.editReply({ content: 'Es gab einen Fehler beim Ausführen des Commands!', ephemeral: true });
+			}
+		}
 	},
 };

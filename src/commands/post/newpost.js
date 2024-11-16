@@ -1,56 +1,62 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { color } = require('../../data/config.json');
-const { EmbedBuilder } = require('discord.js');
-const fs = require('fs');
-const moment = require('moment');
+const { botAdminRole } = require('../../data/config.json');
+const { ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 
 module.exports = {
-    data: new SlashCommandBuilder()
+	data: new SlashCommandBuilder()
 		.setName("newpost")
-		.setDescription("Erstelle einen neuen Post auf der Website")
-		.addStringOption(option =>
+		.setDescription("Erstelle einen neuen Post auf dem Discord und der Website")
+		.addChannelOption(option =>
 			option
-				.setName("titel")
-				.setDescription("Der Titel vom Post")
+				.setName("channel")
+				.setDescription("Channel, in dem der Post erstellt werden soll.")
 				.setRequired(true))
-		.addStringOption(option =>
+		.addRoleOption(option =>
 			option
-				.setName("text")
-				.setDescription("Fließtext der im Post stehen soll. Neue Zeilen werden mit '{nl}' angefangen")
-				.setRequired(true))
-		.addStringOption(option =>
-			option
-				.setName("bild")
-				.setDescription("Direkte URL vom Bild")
-				.setRequired(true)),
+				.setName("ping")
+				.setDescription("Rolle, die gepingt werden soll")
+				.setRequired(false))
+		.setDMPermission(false),
 
-		async execute(interaction) {
-			await interaction.deferReply();
-			const author = interaction.user;
-			const title = interaction.options.getString("titel");
-			const text = interaction.options.getString("text");
-			const image = interaction.options.getString("bild");
-			const newText = text.replace(/({nl})/gm, "\n");
+	async execute(interaction) {
+		if (!interaction.member.roles.cache.has(botAdminRole)) return await interaction.reply({ ephemeral: true, content: "Du hast keine Berechtigung, diesen Command auszuführen!" });
 
-			let json = {
-				"title": title,
-				"text": newText,
-				"image": image,
-			};
-			json = JSON.stringify(json, null, 4);
+		const modal = new ModalBuilder()
+			.setCustomId(`newpost_${interaction.user.id}`)
+			.setTitle("Neuer Post");
 
-			const date = moment().format("MM-DD-YYYY_HH-mm-ss");
+		const channel = await interaction.guild.channels.fetch(interaction.options.getChannel("channel").id);
+		const ping = interaction.options.getRole("ping") || undefined;
 
-			fs.writeFile(`./exports/${date}.json`, json, 'utf-8', function writeFileCallback(err) {
-				if (err) { console.log(err); }
-			});
+		const titleInput = new TextInputBuilder()
+			.setCustomId("postTitle")
+			.setLabel("Titel vom Post")
+			.setStyle(TextInputStyle.Short)
+			.setRequired(true);
 
-			const embed = new EmbedBuilder()
-				.setTitle(title)
-				.setColor(color)
-				.setDescription(newText)
-				.setImage(image)
-				.setAuthor({ name: author.username, iconURL: author.displayAvatarURL({ dynamic: true }) });
-			await interaction.editReply({ embeds: [embed] });
-		},
+		const textInput = new TextInputBuilder()
+			.setCustomId("postText")
+			.setLabel("Text vom Post")
+			.setStyle(TextInputStyle.Paragraph)
+			.setRequired(true);
+
+		const imageInput = new TextInputBuilder()
+			.setCustomId("postImage")
+			.setLabel("Direkte URL vom Bild")
+			.setStyle(TextInputStyle.Short)
+			.setRequired(false);
+
+		const titleActionRow = new ActionRowBuilder().addComponents(titleInput);
+		const textActionRow = new ActionRowBuilder().addComponents(textInput);
+		const imageActionRow = new ActionRowBuilder().addComponents(imageInput);
+
+		modal.addComponents(titleActionRow, textActionRow, imageActionRow);
+
+		interaction.client.storage.newpost[interaction.user.id] = {
+			channel: channel.id,
+			ping: ping,
+		};
+
+		await interaction.showModal(modal);
+	},
 };
