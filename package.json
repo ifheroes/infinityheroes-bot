@@ -1,23 +1,32 @@
 {
-  "name": "discord-web-bot-ifheroes",
-  "version": "1.2.1",
-  "description": "Discord Bot that allows communication between a Website and a Server via Slash Commands",
+  "name": "infinityheroes-bot",
+  "version": "1.2.0",
+  "description": "Discord Bot for the Infinityheroes Project",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Wer braucht bitte ein Testscript fuer einen Discord Bot???\" && exit 0",
     "deploy": "node ./src/deploy-commands.js",
     "start": "node ./src/index.js"
   },
-  "author": "EckigerLuca",
+  "contributors": [
+	{
+		"name": "EckigerLuca",
+		"email": "luca@eckigerluca.com",
+		"url": "https://eckigerluca.com"
+	}
+  ],
   "license": "GPL-3.0",
   "devDependencies": {
-    "eslint": "latest"
+    "eslint": "^7.32.0"
   },
   "dependencies": {
-    "@discordjs/rest": "latest",
-    "discord-api-types": "latest",
-    "discord.js": "^14.0.0",
-    "events": "latest",
-    "moment": "^2.29.1"
+    "discord.js": "^14.14.1",
+    "events": "^3.3.0",
+    "moment": "^2.29.1",
+    "mongodb": "^6.3.0",
+    "silly-logger": "^1.3.1"
+  },
+  "engines": {
+	"node": ">=20.0.0"
   }
 }
