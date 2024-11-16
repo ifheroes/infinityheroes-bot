@@ -1,6 +1,6 @@
 {
   "name": "infinityheroes-bot",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Discord Bot for the Infinityheroes Project",
   "main": "src/index.js",
   "scripts": {
@@ -9,11 +9,11 @@
     "start": "node ./src/index.js"
   },
   "contributors": [
-	{
-		"name": "EckigerLuca",
-		"email": "luca@eckigerluca.com",
-		"url": "https://eckigerluca.com"
-	}
+    {
+      "name": "EckigerLuca",
+      "email": "luca@eckigerluca.com",
+      "url": "https://eckigerluca.com"
+    }
   ],
   "license": "GPL-3.0",
   "devDependencies": {
@@ -27,6 +27,6 @@
     "silly-logger": "^1.3.1"
   },
   "engines": {
-	"node": ">=20.0.0"
+    "node": ">=20.0.0"
   }
 }
