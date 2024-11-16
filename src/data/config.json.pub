@@ -2,6 +2,7 @@
 	"token": "",
 	"clientId": "",
 	"guildId": "",
-	"roleId": "",
-	"color": ""
+	"color": "",
+	"botAdminRole" : "",
+	"mongodbURI": ""
 }

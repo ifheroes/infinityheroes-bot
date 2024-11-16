@@ -1,0 +1,10 @@
+{
+	"enabled": false,
+	"ticket-category": 1234567890,
+	"ticket-embed-channel": 1234567890,
+	"ticket-logs-channel": 1234567890,
+	"ticket-embed-title": "Support Ticket",
+	"ticket-embed-description": "Drücke auf den Button um ein Ticket zu erstellen!",
+	"ticket-embed-color": "#00ff00",
+	"ticket-embed-footer": "ifheroes Support System"
+}

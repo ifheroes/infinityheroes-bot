@@ -1,9 +1,63 @@
 const fs = require('fs');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const { token } = require('./data/config.json');
+const { token, mongodbURI } = require('./data/config.json');
+const logger = require('silly-logger');
+const { MongoClient } = require('mongodb');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages] });
+logger.enableLogFiles(true);
+logger.logFolderPath('./logs/');
+
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 client.commands = new Collection();
+
+const dbClient = new MongoClient(String(mongodbURI));
+(async function dbSetup() {
+	await dbClient.connect();
+	client.dbClient = dbClient;
+	logger.success('Connected to database server!');
+
+	try {
+		const databases = (await dbClient.db().admin().listDatabases()).databases;
+		let found = false;
+		databases.forEach((database) => {
+			if (database.name === "ifheroes") found = true;
+		});
+		if (!found) {
+			throw new Error("Database not existing!");
+		}
+	} catch (err) {
+		logger.error("Database not existing! Please create a mongodb database called 'ifheroes' with a collection using any name and restart the bot!");
+		process.exit(1);
+	}
+
+	const requiredCollections = ['ticket-configuration', 'tickets', 'stream'];
+	const collections = await dbClient.db("ifheroes").listCollections().toArray();
+	const collectionsOnServer = [];
+	const notFound = [];
+
+	collections.forEach((collection) => {
+		collectionsOnServer.push(collection.name);
+	});
+
+	requiredCollections.forEach((collection) => {
+		if (!collectionsOnServer.includes(collection)) notFound.push(collection);
+	});
+
+	if (notFound.length > 0) {
+		logger.error(`Missing collections: ${notFound.join(', ')}`);
+		logger.info("Creating missing collections...");
+		notFound.forEach(async (collection) => {
+			dbClient.db("ifheroes").createCollection(collection);
+			logger.info(`Created collection ${collection}!`);
+		});
+	}
+	logger.success("Database setup complete!\n");
+
+} ());
+
+client.storage = {
+	newpost: {},
+};
 
 const folders = fs.readdirSync('./src/commands');
 
