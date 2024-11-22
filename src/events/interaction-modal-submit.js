@@ -52,7 +52,7 @@ module.exports = {
                 embed.setImage(data.image);
             }
 
-            const imageData = await ConvertImageToBase64("https://media.discordapp.net/attachments/1170799164171489291/1292106316646584435/image.png?ex=673d3208&is=673be088&hm=e4ff0ede05fd3a196e47a0bbe24950cecb6231422f82c2a240933ee989e43acf");
+            const imageData = await ConvertImageToBase64(data.image);
 
             let json = {
                 "author": {
